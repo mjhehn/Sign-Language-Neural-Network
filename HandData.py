@@ -20,7 +20,7 @@ class HandListener(Leap.Listener):
             newHand = normalizeHandtoMatrix(rightHand)
             #print(newHand)
             handArray = newHand.flatten()#to get a list to put into the neural network
-            print handArray
+            print(handArray)
             
 
 
