@@ -70,14 +70,21 @@ class HandListener(Leap.Listener):
                 templateIndex = 0
                 while found:
                     filename = "templates/"+str(globletter)+"Template"+str(templateIndex) #build directory and file name
+                    
                     if not os.path.exists(filename+".npy"): #check if this one exists, if so, increment index of template
                         np.save(filename, handArray)
                         found = False
+
+                        #*********Naive Compare***********
+                        #verifyHand = np.load("templates/[ENTER A FILENAME]"+".npy")
+                        #diff = np.sum(handArray - verifyHand)
+                        #print(diff)
                     else:
                         templateIndex += 1
                         #print(templateIndex)
-                print("saved "+filename)
                 globletter = 0
+                print("saved "+filename)
+                
 
 
 def handtoMatrix(hand):
@@ -123,6 +130,7 @@ def main():
             globletter = temp.decode()
         else:
             loop = False
+        
     
     controller.remove_listener(listener)
 
