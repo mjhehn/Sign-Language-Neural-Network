@@ -1,6 +1,7 @@
 import os, sys
 import Leap
 import numpy as np
+import pandas as pd
 import math
 
 globletter = 0 #what letter was entered on keybaord
@@ -61,28 +62,23 @@ class HandListener(Leap.Listener):
 
         #TODO: add a timer here which prevents checking the hand until the next interval, in addition to or replacing the visibility check
         if rightHand.time_visible > 1:    #check if hand is still mobile/likely to not be someone trying to hold a sign
-            newHand = handtoMatrix(rightHand)
-            #print(newHand)
-            handArray = newHand.flatten()#to get a list to put into the neural network
             if globletter != 0:
-                found = True
-                filename = ""
-                templateIndex = 0
-                while found:
-                    filename = "templates/"+str(globletter)+"Template"+str(templateIndex) #build directory and file name
-                    
-                    if not os.path.exists(filename+".npy"): #check if this one exists, if so, increment index of template
-                        np.save(filename, handArray)
-                        found = False
-
-                        #*********Naive Compare***********
-                        #verifyHand = np.load("templates/[ENTER A FILENAME]"+".npy")
-                        #diff = np.sum(handArray - verifyHand)
-                        #print(diff)
-                    else:
-                        templateIndex += 1
-                        #print(templateIndex)
+                newHand = handtoMatrix(rightHand)
+                #print(newHand)
+                handArray = newHand.flatten()#to get a list to put into the neural network              
+                handArray = np.append(handArray, globletter)
+                handDataFrame = pd.DataFrame(np.reshape(handArray, (1,len(handArray))))
+                
+                filename = "templates/test.csv" #build directory and file name
+                filehandle = open(filename, 'a')    #open in append mode
+                handDataFrame.to_csv(filehandle, header=False)
                 globletter = 0
+
+                #*********Naive Compare***********
+                #verifyHand = np.load("templates/aTemplate0"+".npy")
+                #verifyHand = np.loadtxt("templates/test.csv")
+                #diff = np.sum(handArray - verifyHand)
+                #print(diff)                
                 print("saved "+filename)
                 
 
@@ -98,6 +94,7 @@ def handtoMatrix(hand):
             bone = finger.bone(i)
             normBone = [bone.direction.x, bone.direction.y, bone.direction.z]
             if (bone.direction.x + bone.direction.y + bone.direction.z) != 0:   #since the first bone of the hand will always be, as they added one to the thumb
+                normBone -= handMatrix[0,:]
                 normBone = normalizeVector(normBone)
             handMatrix[j, :] = normBone
             j = j + 1
