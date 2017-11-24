@@ -66,7 +66,6 @@ class HandListener(Leap.Listener):
                 newHand = handtoMatrix(rightHand)
                 #print(newHand)
                 handArray = newHand.flatten()#to get a list to put into the neural network  
-                handSum = np.sum(handArray)            
                 handArray = np.append(handArray, globletter)
                 handDataFrame = pd.DataFrame(np.reshape(handArray, (1,len(handArray))))
                 
@@ -75,13 +74,6 @@ class HandListener(Leap.Listener):
                 #cols = [palmx,palmy,palmz,thumb0x,thumb0y,thumb0z,thumb1x,thumb1y,thumb1z,thumb2x,thumb2y,thumb2z,thumb3x,thumb3y,thumn3z,index0x,index0y,index0z,index1x,index1y,index1z,index2x,index2y,index2z,index3x,index3y,index3z,middle0x,middle0y,middle0z,middle1x,middle1y,middle1z,middle2x,middle2y,middle2z,middle3x,middle3y,middle3z,ring0x,ring0y,ring0z,ring1x,ring1y,ring1z,ring2x,ring2y,ring2z,ring3x,ring3y,ring3z,pinky0x,pinky0y,pinky0z,pinky1x,pinky1y,pinky1z,pinky2x,pinky2y,pinky2z,pinky3x,pinky3y,pinky3z,sign]
                 handDataFrame.to_csv(filehandle, header=False, index = False)
                 globletter = 0
-
-                #*********Naive Compare***********
-                verifyHand = pd.read_csv(filename)
-                diff = verifyHand[:1].sum(1, numeric_only=True) 
-                diff2 = handSum
-                print(diff)
-                print(diff2)
                 print("saved "+filename)
                 
 
