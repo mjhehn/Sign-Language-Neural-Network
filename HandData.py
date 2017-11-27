@@ -18,8 +18,6 @@ import numpy as np
 import pandas as pd
 import math
 
-import neuralnetworks as nn
-import mlutils as ml
 
 globletter = 0 #what letter was entered on keybaord
 
@@ -86,7 +84,7 @@ class HandListener(Leap.Listener):
                 handArray = np.append(handArray, globletter)
                 handDataFrame = pd.DataFrame(np.reshape(handArray, (1,len(handArray))))
                 
-                filename = "templates/test.csv" #build directory and file name
+                filename = "templates/data1.csv" #build directory and file name
                 filehandle = open(filename, 'a')    #open in append mode
                 #cols = [palmx,palmy,palmz,thumb0x,thumb0y,thumb0z,thumb1x,thumb1y,thumb1z,thumb2x,thumb2y,thumb2z,thumb3x,thumb3y,thumn3z,index0x,index0y,index0z,index1x,index1y,index1z,index2x,index2y,index2z,index3x,index3y,index3z,middle0x,middle0y,middle0z,middle1x,middle1y,middle1z,middle2x,middle2y,middle2z,middle3x,middle3y,middle3z,ring0x,ring0y,ring0z,ring1x,ring1y,ring1z,ring2x,ring2y,ring2z,ring3x,ring3y,ring3z,pinky0x,pinky0y,pinky0z,pinky1x,pinky1y,pinky1z,pinky2x,pinky2y,pinky2z,pinky3x,pinky3y,pinky3z,sign]
                 handDataFrame.to_csv(filehandle, header=False, index = False)
