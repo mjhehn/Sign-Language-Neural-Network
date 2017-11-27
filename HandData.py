@@ -1,8 +1,25 @@
-import os, sys
+import os, sys, inspect
+
+cmd_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile( inspect.currentframe() ))[0]))
+if cmd_folder not in sys.path:
+    sys.path.insert(0, cmd_folder)
+
+
+cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0],"lib/Leap")))
+if cmd_subfolder not in sys.path:
+    sys.path.insert(0, cmd_subfolder)
+    cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0],"lib/Anderson")))
+if cmd_subfolder not in sys.path:
+    sys.path.insert(0, cmd_subfolder)
+
+
 import Leap
 import numpy as np
 import pandas as pd
 import math
+
+import neuralnetworks as nn
+import mlutils as ml
 
 globletter = 0 #what letter was entered on keybaord
 
