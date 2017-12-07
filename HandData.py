@@ -117,10 +117,8 @@ def normalizeVector(vector): #normalize vector given in list format.
         #print(num)
     #print(total)
     magnitude = math.sqrt(total)
-    if magnitude != 0:
-        for num in vector:
-            num = num/magnitude
-    return vector
+    normedVec = [num/magnitude for num in vector if magnitude != 0]
+    return normedVec
 
 def main():
     listener = HandListener()
