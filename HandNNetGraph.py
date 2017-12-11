@@ -1,5 +1,5 @@
 #bestNet = [5,5,7,2,2,7,5,5]
-bestNet = [5]
+bestNet = [252]
 import os, sys, inspect
 
 cmd_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile( inspect.currentframe() ))[0]))
@@ -64,7 +64,7 @@ Tsign = data[:, 64:65]
 Tsign = Tsign.astype(np.int32)
 #run best on 
 Xtrain,Ttrain,Xtest,Ttest = ml.partition(Xhands,Tsign,(0.8, 0.2),True)
-nnet = nn.NeuralNetworkClassifier(Xtrain.shape[1], bestNet[0], len(np.unique(Ttrain)))
-nnet.train(Xtrain, Ttrain, 100)
+nnet = nn.NeuralNetworkClassifier(Xtrain.shape[1], bestNet, len(np.unique(Ttrain)))
+nnet.train(Xtrain, Ttrain, 200)
 
 result = nnet.use(Xtest)
